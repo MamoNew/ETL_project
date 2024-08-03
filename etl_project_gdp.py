@@ -5,11 +5,13 @@ import datetime
 from bs4 import BeautifulSoup
 import requests
 # Code for ETL operations on Country-GDP data
+
 def extract(url, table_attribs):
-    url ='https://web.archive.org/web/20230902185326/https://en.wikipedia.org/wiki/List_of_countries_by_GDP_%28nominal%29'
     page = requests.get(url).text
     data = BeautifulSoup(page,'html.parser')
     df = pd.DataFrame(columns=table_attribs)
+    #I have Extracted all 'tbody' attributes of the HTML object and then
+    #extract all the rows of the index 2 table using the 'tr' attribute.
     tables = data.find_all('tbody')
     rows = tables[2].find_all('tr')
     for row in rows:
@@ -21,11 +23,6 @@ def extract(url, table_attribs):
                 df1 = pd.DataFrame(data_dict, index=[0])
                 df = pd.concat([df,df1], ignore_index=True)
     return df
-
-def transform(df):
-    GDP_list=df["GDP_USD_millions"].tolist()
-    GDP_list= [float("".join(x.split(','))) for x in GDP_list]
-    GDP_list= [np.round(x/1000,2) for x in GDP_list]
     
   
 
