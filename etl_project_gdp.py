@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import sqlite3
 import datetime
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup                  
 import requests
 # Code for ETL operations on Country-GDP data
 
